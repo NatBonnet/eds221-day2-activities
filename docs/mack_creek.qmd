@@ -33,8 +33,26 @@ mc_salamanders
 ```{r}
 salamander_size_plot <- ggplot(mc_salamanders, aes(x = length1, y = weight))+
   geom_point(color = "blue")+
-  labs(title = "Salamander Snout Length vs. Weight", x = "Snout-Vent Length (mm)", y = "Weight (g)", caption = "Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2025-08-12).") +
+  labs(title = "Salamander Snout Length vs. Weight", x = "Snout-Vent Length (mm)", y = "Weight (g)", caption = "Gregory, S.V. and I. Arismendi. 2020. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165") +
   theme_solarized()
 salamander_size_plot
+
+ggsave(here::here("figs", "salamander_size_plot.png"))
+```
+```{r}
+mc_trout <- mack_verts |> filter(species == "ONCL")
+
+```
+
+```{r}
+cutthroat_size <- ggplot(mc_trout, aes(x = length1, y = weight, color = reach)) +
+  geom_point() +
+  labs(title = "Trout Length by Weight", x = "Length (mm)", y = "Weight (g)", caption = "Gregory, S.V. and I. Arismendi. 2020. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165")+
+  scale_color_manual(values = c("paleturquoise4", "skyblue4", "thistle4")) +
+  facet_wrap(~reach) +
+  theme_solarized()+
+    theme(legend.position = "none")
+cutthroat_size
+ggsave(here::here("figs", "cutthroat_size.png"))
 ```
 
