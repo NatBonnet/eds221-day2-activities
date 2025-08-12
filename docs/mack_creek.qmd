@@ -1,0 +1,40 @@
+---
+title: "mack_creek"
+format: html
+execute:
+  warning: FALSE
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggthemes)
+```
+
+
+```{r}
+mack_verts <- read_csv(here::here("data", "AS00601.csv"))
+mack_verts <- mack_verts |> janitor::clean_names()
+head(mack_verts)
+```
+```{r}
+mc_wt_5 <- mack_verts$weight[5]
+mc_length_8_20 <- mack_verts$length1[8:20]
+mc_dates <- c(mack_verts$sampledate)
+```
+
+```{r}
+# subsetting out the giant salamanders
+mc_salamanders <- mack_verts |> dplyr::filter(species == "DITE")
+mc_salamanders
+```
+
+```{r}
+salamander_size_plot <- ggplot(mc_salamanders, aes(x = length1, y = weight))+
+  geom_point(color = "blue")+
+  labs(title = "Salamander Snout Length vs. Weight", x = "Snout-Vent Length (mm)", y = "Weight (g)", caption = "Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2025-08-12).") +
+  theme_solarized()
+salamander_size_plot
+```
+
